@@ -32,8 +32,8 @@ jobs:
         mkdir externals
         cd externals
         curl -o lazycsv.hpp https://raw.githubusercontent.com/ashtum/lazycsv/master/include/lazycsv.hpp
+        cp lazycsv.hpp ../gauss-solver/lazycsv.hpp
         
-
     - name: Setup GoogleTest
       uses: Bacondish2023/setup-googletest@v1
       with:
