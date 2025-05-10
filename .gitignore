@@ -1,3 +1,5 @@
 .vscode
 x.csv
 *.out
+./tests
+lazycsv.hpp

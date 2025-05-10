@@ -89,7 +89,9 @@ Eigen::VectorXd gauss(Eigen::Matrix<double, -1, -1, Eigen::RowMajor> A) {
     return x;
 }
 
-
+#ifdef TESTING
+// Disable main when building tests
+#else
 int main() {
     std::string filename = "AB.csv";
     std::vector<std::vector<double>> rcsv = readRCSVFromCSV(filename); 
@@ -104,3 +106,4 @@ int main() {
 
     return 0;
 }
+#endif
