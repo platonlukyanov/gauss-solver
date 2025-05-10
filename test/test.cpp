@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <Eigen/Dense>
+#include <random>
 
 std::vector<std::vector<double>> readRCSVFromCSV(std::string& filename);
 Eigen::MatrixXd convertRCSVToEigen(std::vector<std::vector<double>> rcsv);
@@ -66,6 +67,40 @@ TEST(GaussianEliminationTest, ThrowsOnSingularMatrix) {
          2, 4, 6; // 2 строка линейно зависимая
 
     EXPECT_THROW(gauss(A), std::runtime_error);
+}
+
+TEST(GaussianEliminationTest, SolvesBigRandomMatrix) {
+    int n = 1000;
+
+    // Mersenne Twister RNG для генерации случайных чисел
+    std::mt19937 rng(12345); // Фиксируем seed для тестирования
+    std::uniform_real_distribution<double> dist(0, 100);
+
+    // Матрица n x n
+    Eigen::MatrixXd A(n, n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            A(i, j) = dist(rng);
+        }
+    }
+
+    Eigen::VectorXd b(n);
+    for (int i = 0; i < n; i++) {
+        b(i) = dist(rng);
+    }
+
+    // Создаем матрицу с стобцом свободных коэффициентов [A | b] (n x (n+1))
+    Eigen::MatrixXd augmentedMatrix(n, n + 1);
+    augmentedMatrix << A, b;
+    Eigen::VectorXd x = gauss(augmentedMatrix);
+
+    ASSERT_EQ(x.size(), n);
+
+    // Проверяем решение. Должно быть: A * x = b
+    Eigen::VectorXd Ax = A * x;
+    for (int i = 0; i < n; i++) {
+        EXPECT_NEAR(Ax(i), b(i), 1e-6);
+    }
 }
 
 int main(int argc, char **argv) {
