@@ -28,11 +28,11 @@ jobs:
     
     - name: Install lazycsv.hpp
       run: |
-        cd ..
-        mkdir externals
-        cd externals
         curl -o lazycsv.hpp https://raw.githubusercontent.com/ashtum/lazycsv/master/include/lazycsv.hpp
-        cp lazycsv.hpp ../gauss-solver/lazycsv.hpp
+        mkdir ../externals
+        mkdir ../externals/lazycsv
+        mkdir ../externals/lazycsv/include
+        cp lazycsv.hpp ../externals/lazycsv/include
         
     - name: Setup GoogleTest
       uses: Bacondish2023/setup-googletest@v1
