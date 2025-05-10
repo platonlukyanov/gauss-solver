@@ -28,11 +28,10 @@ jobs:
     
     - name: Install lazycsv.hpp
       run: |
-        cd ../..
+        cd ..
         mkdir externals
         cd externals
-        git clone https://github.com/ashtum/lazycsv.git
-        cp lazycsv/include/lazycsv.hpp .
+        curl -o lazycsv.hpp https://raw.githubusercontent.com/ashtum/lazycsv/master/include/lazycsv.hpp
         
 
     - name: Setup GoogleTest
